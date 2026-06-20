@@ -50,3 +50,9 @@ test('moves projects up and down and exposes delete directly', async () => {
   expect(namesAfter).toEqual(['项目二', '项目一'])
   expect(screen.getByRole('button', { name: '删除 项目二' })).toBeVisible()
 })
+
+test('shows quiet import and export controls in the footer', () => {
+  render(<App />)
+  expect(screen.getByRole('button', { name: '导入数据' })).toBeVisible()
+  expect(screen.getByRole('button', { name: '导出数据' })).toBeVisible()
+})

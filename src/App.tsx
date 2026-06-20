@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
-import { ChevronLeft, ChevronRight, Plus, Search, X } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { ChevronLeft, ChevronRight, Download, Plus, Search, Upload, X } from 'lucide-react'
 import { EditableText } from './components/EditableText'
 import { ProjectDialog } from './components/ProjectDialog'
 import { ProjectGrid } from './components/ProjectGrid'
 import type { AppState, Project, ViewMode } from './domain/types'
+import { exportState, importState } from './storage/dataTransfer'
 import { createLocalCheckinRepository } from './storage/localCheckinRepository'
 import './styles.css'
 
@@ -18,6 +19,8 @@ export default function App() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [transferMessage, setTransferMessage] = useState('')
+  const importInputRef = useRef<HTMLInputElement>(null)
   const today = useMemo(() => new Date(), [])
   const anchor = new Date(state.anchorDate)
 
@@ -68,6 +71,32 @@ export default function App() {
 
   const monthTitle = `${anchor.getFullYear()} 年 ${anchor.getMonth() + 1} 月`
   const activeCount = state.projects.filter((project) => !project.archived).length
+
+  const downloadBackup = () => {
+    const blob = new Blob([exportState(state)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `项目进度备份-${new Date().toISOString().slice(0, 10)}.json`
+    link.click()
+    URL.revokeObjectURL(url)
+    setTransferMessage('数据已导出')
+  }
+
+  const loadBackup = async (file?: File) => {
+    if (!file) return
+    try {
+      const nextState = importState(await file.text())
+      if (window.confirm('导入会覆盖当前浏览器中的全部项目和打卡数据，继续吗？')) {
+        setState(nextState)
+        setTransferMessage('数据已导入')
+      }
+    } catch (error) {
+      setTransferMessage(error instanceof Error ? error.message : '导入失败')
+    } finally {
+      if (importInputRef.current) importInputRef.current.value = ''
+    }
+  }
 
   return (
     <main className="app-shell">
@@ -120,7 +149,24 @@ export default function App() {
           </div>
         )}
 
-        <footer className="footer-note"><span>点击格子打卡，再次点击取消</span><span>标题与项目名称均可直接编辑</span></footer>
+        <footer className="footer-note">
+          <div className="footer-copy">
+            <span>点击格子打卡，再次点击取消</span>
+            <span>标题与项目名称均可直接编辑</span>
+          </div>
+          <div className="data-transfer">
+            {transferMessage && <span className="transfer-message" role="status">{transferMessage}</span>}
+            <input
+              ref={importInputRef}
+              className="visually-hidden"
+              type="file"
+              accept="application/json,.json"
+              onChange={(event) => loadBackup(event.target.files?.[0])}
+            />
+            <button aria-label="导入数据" onClick={() => importInputRef.current?.click()}><Upload size={13} />导入</button>
+            <button aria-label="导出数据" onClick={downloadBackup}><Download size={13} />导出</button>
+          </div>
+        </footer>
       </section>
 
       <ProjectDialog open={dialogOpen} onClose={() => setDialogOpen(false)} onCreate={createProject} />
