@@ -1,4 +1,4 @@
-import { MoreHorizontal } from 'lucide-react'
+import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react'
 import { getIntensity, getPeriodRatio } from '../domain/aggregation'
 import { getMonthDays, getMonthPeriods, getWeekPeriods, toDateKey, type Period } from '../domain/dateRanges'
 import type { Project, ViewMode } from '../domain/types'
@@ -12,6 +12,7 @@ type Props = {
   checkins: Record<string, string[]>
   onToggle: (projectId: string, dateKey: string) => void
   onRename: (projectId: string, name: string) => void
+  onMove: (projectId: string, direction: -1 | 1) => void
   onDelete: (projectId: string) => void
 }
 
@@ -23,7 +24,7 @@ function AggregateCell({ period, checked }: { period: Period; checked: Set<strin
   return <div className="aggregate-cell" data-intensity={intensity} title={`${Math.round(ratio * 100)}%`} />
 }
 
-export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle, onRename, onDelete }: Props) {
+export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle, onRename, onMove, onDelete }: Props) {
   const days = getMonthDays(anchor)
   const periods = view === 'week' ? getWeekPeriods(today) : getMonthPeriods(today)
   const columns = view === 'day' ? days.length : periods.length
@@ -49,13 +50,15 @@ export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle,
             ))}
         <div className="grid-header menu-spacer" />
 
-        {projects.map((project) => {
+        {projects.map((project, projectIndex) => {
           const checked = new Set(checkins[project.id] ?? [])
           return (
             <div className="project-row-contents" key={project.id}>
               <div className="project-name-cell">
                 <i className="project-dot" />
-                <EditableText value={project.name} ariaLabel={`${project.name}名称`} onSave={(name) => onRename(project.id, name)} className="project-name" />
+                <span data-testid="project-name" className="project-name-wrap">
+                  <EditableText value={project.name} ariaLabel={`${project.name}名称`} onSave={(name) => onRename(project.id, name)} className="project-name" />
+                </span>
               </div>
               {view === 'day'
                 ? days.map(({ date, key }) => {
@@ -73,12 +76,11 @@ export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle,
                     )
                   })
                 : periods.map((period) => <AggregateCell key={period.key} period={period} checked={checked} />)}
-              <details className="project-menu">
-                <summary aria-label={`${project.name}操作`}><MoreHorizontal size={17} /></summary>
-                <div className="menu-popover">
-                  <button className="danger" onClick={() => window.confirm(`删除“${project.name}”及全部打卡记录？`) && onDelete(project.id)}>删除项目</button>
-                </div>
-              </details>
+              <div className="project-actions">
+                <button aria-label={`上移 ${project.name}`} disabled={projectIndex === 0} onClick={() => onMove(project.id, -1)}><ArrowUp size={14} /></button>
+                <button aria-label={`下移 ${project.name}`} disabled={projectIndex === projects.length - 1} onClick={() => onMove(project.id, 1)}><ArrowDown size={14} /></button>
+                <button className="danger" aria-label={`删除 ${project.name}`} onClick={() => window.confirm(`删除“${project.name}”及全部打卡记录？`) && onDelete(project.id)}><Trash2 size={14} /></button>
+              </div>
             </div>
           )
         })}

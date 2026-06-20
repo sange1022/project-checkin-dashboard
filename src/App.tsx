@@ -57,6 +57,15 @@ export default function App() {
     return { ...current, projects: current.projects.filter((project) => project.id !== projectId), checkins }
   })
 
+  const moveProject = (projectId: string, direction: -1 | 1) => update((current) => {
+    const index = current.projects.findIndex((project) => project.id === projectId)
+    const target = index + direction
+    if (index < 0 || target < 0 || target >= current.projects.length) return current
+    const projects = [...current.projects]
+    ;[projects[index], projects[target]] = [projects[target], projects[index]]
+    return { ...current, projects }
+  })
+
   const monthTitle = `${anchor.getFullYear()} 年 ${anchor.getMonth() + 1} 月`
   const activeCount = state.projects.filter((project) => !project.archived).length
 
@@ -101,7 +110,7 @@ export default function App() {
           )}
         </div>
 
-        <ProjectGrid view={state.view} anchor={anchor} today={today} projects={visibleProjects} checkins={state.checkins} onToggle={toggleCheckin} onRename={renameProject} onDelete={deleteProject} />
+        <ProjectGrid view={state.view} anchor={anchor} today={today} projects={visibleProjects} checkins={state.checkins} onToggle={toggleCheckin} onRename={renameProject} onMove={moveProject} onDelete={deleteProject} />
         {!visibleProjects.length && (
           <div className="empty-state">
             <div className="empty-mark">日</div>

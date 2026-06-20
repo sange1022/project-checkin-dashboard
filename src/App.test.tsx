@@ -31,3 +31,22 @@ test('switches between daily weekly and monthly views', async () => {
   await user.click(screen.getByRole('button', { name: '每月' }))
   expect(screen.getAllByTestId('period-header')).toHaveLength(12)
 })
+
+test('moves projects up and down and exposes delete directly', async () => {
+  const user = userEvent.setup()
+  render(<App />)
+
+  for (const name of ['项目一', '项目二']) {
+    await user.click(screen.getByRole('button', { name: '新项目' }))
+    await user.type(screen.getByRole('textbox', { name: '项目名称' }), name)
+    await user.click(screen.getByRole('button', { name: '创建' }))
+  }
+
+  const namesBefore = screen.getAllByTestId('project-name').map((item) => item.textContent)
+  expect(namesBefore).toEqual(['项目一', '项目二'])
+
+  await user.click(screen.getByRole('button', { name: '上移 项目二' }))
+  const namesAfter = screen.getAllByTestId('project-name').map((item) => item.textContent)
+  expect(namesAfter).toEqual(['项目二', '项目一'])
+  expect(screen.getByRole('button', { name: '删除 项目二' })).toBeVisible()
+})
