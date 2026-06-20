@@ -1,0 +1,120 @@
+import { useEffect, useMemo, useState } from 'react'
+import { ChevronLeft, ChevronRight, Plus, Search, X } from 'lucide-react'
+import { EditableText } from './components/EditableText'
+import { ProjectDialog } from './components/ProjectDialog'
+import { ProjectGrid } from './components/ProjectGrid'
+import type { AppState, Project, ViewMode } from './domain/types'
+import { createLocalCheckinRepository } from './storage/localCheckinRepository'
+import './styles.css'
+
+const repository = createLocalCheckinRepository(window.localStorage)
+
+function makeId() {
+  return globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`
+}
+
+export default function App() {
+  const [state, setState] = useState<AppState>(() => repository.load())
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const today = useMemo(() => new Date(), [])
+  const anchor = new Date(state.anchorDate)
+
+  useEffect(() => repository.save(state), [state])
+  useEffect(() => { document.title = state.title }, [state.title])
+
+  const update = (change: (current: AppState) => AppState) => setState((current) => change(current))
+  const visibleProjects = state.projects.filter((project) =>
+    !project.archived && project.name.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()),
+  )
+
+  const setView = (view: ViewMode) => update((current) => ({ ...current, view }))
+  const moveMonth = (delta: number) => {
+    const next = new Date(anchor.getFullYear(), anchor.getMonth() + delta, 1)
+    update((current) => ({ ...current, anchorDate: next.toISOString() }))
+  }
+
+  const createProject = (name: string) => {
+    const project: Project = { id: makeId(), name, createdAt: new Date().toISOString(), archived: false }
+    update((current) => ({ ...current, projects: [...current.projects, project] }))
+  }
+
+  const toggleCheckin = (projectId: string, dateKey: string) => update((current) => {
+    const currentDates = new Set(current.checkins[projectId] ?? [])
+    currentDates.has(dateKey) ? currentDates.delete(dateKey) : currentDates.add(dateKey)
+    return { ...current, checkins: { ...current.checkins, [projectId]: [...currentDates].sort() } }
+  })
+
+  const renameProject = (projectId: string, name: string) => update((current) => ({
+    ...current,
+    projects: current.projects.map((project) => project.id === projectId ? { ...project, name } : project),
+  }))
+
+  const deleteProject = (projectId: string) => update((current) => {
+    const checkins = { ...current.checkins }
+    delete checkins[projectId]
+    return { ...current, projects: current.projects.filter((project) => project.id !== projectId), checkins }
+  })
+
+  const monthTitle = `${anchor.getFullYear()} 年 ${anchor.getMonth() + 1} 月`
+  const activeCount = state.projects.filter((project) => !project.archived).length
+
+  return (
+    <main className="app-shell">
+      <header className="topbar">
+        <EditableText value={state.title} ariaLabel="页面标题" onSave={(title) => update((current) => ({ ...current, title }))} className="page-title" />
+        <nav className="view-switcher" aria-label="时间视图">
+          {([['day', '每日'], ['week', '每周'], ['month', '每月']] as const).map(([mode, label]) => (
+            <button key={mode} className={state.view === mode ? 'active' : ''} aria-pressed={state.view === mode} onClick={() => setView(mode)}>{label}</button>
+          ))}
+        </nav>
+        <div className="top-actions">
+          <button className="icon-button" aria-label={searchOpen ? '关闭搜索' : '搜索项目'} onClick={() => setSearchOpen((value) => !value)}>{searchOpen ? <X size={17} /> : <Search size={17} />}</button>
+          <button className="new-project-button" onClick={() => setDialogOpen(true)}><Plus size={16} />新项目</button>
+        </div>
+      </header>
+
+      <section className="workspace">
+        {searchOpen && (
+          <div className="search-bar">
+            <Search size={16} />
+            <input type="search" aria-label="搜索项目" placeholder="搜索项目…" value={query} onChange={(event) => setQuery(event.target.value)} autoFocus />
+          </div>
+        )}
+
+        <div className="period-toolbar">
+          <div>
+            <p className="eyebrow">{state.view === 'day' ? 'MONTHLY CHECK-IN' : state.view === 'week' ? 'LAST 12 WEEKS' : 'LAST 12 MONTHS'}</p>
+            <h1>{state.view === 'day' ? monthTitle : state.view === 'week' ? '最近 12 周' : '最近 12 个月'}</h1>
+            <p className="period-meta">{activeCount} 个项目 · 仅保存在此浏览器</p>
+          </div>
+          {state.view === 'day' && (
+            <div className="month-navigation">
+              <button className="icon-button" aria-label="上一个月" onClick={() => moveMonth(-1)}><ChevronLeft size={17} /></button>
+              <button className="today-button" onClick={() => update((current) => ({ ...current, anchorDate: today.toISOString() }))}>回到本月</button>
+              <button className="icon-button" aria-label="下一个月" onClick={() => moveMonth(1)}><ChevronRight size={17} /></button>
+            </div>
+          )}
+          {state.view !== 'day' && (
+            <div className="intensity-legend"><span>少</span>{[0, 1, 2, 3, 4].map((level) => <i key={level} data-intensity={level} />)}<span>多</span></div>
+          )}
+        </div>
+
+        <ProjectGrid view={state.view} anchor={anchor} today={today} projects={visibleProjects} checkins={state.checkins} onToggle={toggleCheckin} onRename={renameProject} onDelete={deleteProject} />
+        {!visibleProjects.length && (
+          <div className="empty-state">
+            <div className="empty-mark">日</div>
+            <h2>{query ? '没有匹配的项目' : '从第一个项目开始'}</h2>
+            <p>{query ? '换一个关键词试试。' : '建立项目，然后每天轻点一下。'}</p>
+            {!query && <button className="primary-button" onClick={() => setDialogOpen(true)}><Plus size={16} />添加项目</button>}
+          </div>
+        )}
+
+        <footer className="footer-note"><span>点击格子打卡，再次点击取消</span><span>标题与项目名称均可直接编辑</span></footer>
+      </section>
+
+      <ProjectDialog open={dialogOpen} onClose={() => setDialogOpen(false)} onCreate={createProject} />
+    </main>
+  )
+}
