@@ -1,4 +1,5 @@
 export type ViewMode = 'day' | 'week' | 'month'
+export type ThemePreference = 'system' | 'light' | 'dark'
 
 export type Project = {
   id: string
@@ -41,6 +42,7 @@ export type AppState = {
   stageProjects: StageProject[]
   stageBoardTitle: string
   stageLabels: string[]
+  theme: ThemePreference
 }
 
 export function createInitialState(): AppState {
@@ -59,5 +61,6 @@ export function createInitialState(): AppState {
     stageProjects: [],
     stageBoardTitle: '设计项目阶段',
     stageLabels: ['初次沟通', '设计定金', '现场量尺', '平面方案', '一次方案', 'SU建模', '二次方案', '效果图制作', '效果图沟通', '施工图制作', '图纸对接', '软装搭配', '软装交付', '现场施工', '服务完结'],
+    theme: 'system',
   }
 }

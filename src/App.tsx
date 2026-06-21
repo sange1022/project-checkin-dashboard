@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, Download, Plus, Search, Upload, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Download, Moon, Plus, Search, Sun, Upload, X } from 'lucide-react'
 import { EditableText } from './components/EditableText'
 import { ProjectDialog } from './components/ProjectDialog'
 import { ProjectGrid } from './components/ProjectGrid'
@@ -28,10 +28,13 @@ export default function App() {
   const [transferMessage, setTransferMessage] = useState('')
   const importInputRef = useRef<HTMLInputElement>(null)
   const today = useMemo(() => new Date(), [])
+  const systemDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
+  const actualTheme = state.theme === 'system' ? (systemDark ? 'dark' : 'light') : state.theme
   const anchor = new Date(state.anchorDate)
 
   useEffect(() => repository.save(state), [state])
   useEffect(() => { document.title = state.title }, [state.title])
+  useEffect(() => { document.documentElement.dataset.theme = actualTheme }, [actualTheme])
 
   const update = (change: (current: AppState) => AppState) => setState((current) => change(current))
   const visibleProjects = state.projects.filter((project) =>
@@ -117,6 +120,7 @@ export default function App() {
     ...current,
     stageLabels: current.stageLabels.map((currentLabel, currentIndex) => currentIndex === index ? label : currentLabel),
   }))
+  const toggleTheme = () => update((current) => ({ ...current, theme: actualTheme === 'dark' ? 'light' : 'dark' }))
 
   const downloadBackup = () => {
     const blob = new Blob([exportState(state)], { type: 'application/json' })
@@ -154,6 +158,9 @@ export default function App() {
           ))}
         </nav>
         <div className="top-actions">
+          <button className="icon-button" aria-label={actualTheme === 'dark' ? '切换白天模式' : '切换夜晚模式'} onClick={toggleTheme}>
+            {actualTheme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+          </button>
           <button className="icon-button" aria-label={searchOpen ? '关闭搜索' : '搜索项目'} onClick={() => setSearchOpen((value) => !value)}>{searchOpen ? <X size={17} /> : <Search size={17} />}</button>
           <button className="new-project-button" onClick={() => setDialogOpen(true)}><Plus size={16} />新项目</button>
         </div>
