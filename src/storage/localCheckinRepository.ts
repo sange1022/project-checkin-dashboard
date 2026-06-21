@@ -1,4 +1,5 @@
 import { createInitialState, type AppState } from '../domain/types'
+import { normalizeRandomState } from '../domain/randomPrompts'
 import type { CheckinRepository } from './checkinRepository'
 
 const STORAGE_KEY = 'project-checkins'
@@ -17,7 +18,7 @@ export function createLocalCheckinRepository(storage: Storage): CheckinRepositor
       try {
         const envelope = JSON.parse(raw) as PersistedEnvelope
         if (envelope.version !== 1 || !envelope.state) throw new Error('Unsupported data')
-        return envelope.state
+        return normalizeRandomState(envelope.state)
       } catch {
         storage.setItem(BACKUP_KEY, raw)
         return createInitialState()

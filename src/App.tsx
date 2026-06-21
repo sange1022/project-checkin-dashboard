@@ -3,7 +3,11 @@ import { ChevronLeft, ChevronRight, Download, Plus, Search, Upload, X } from 'lu
 import { EditableText } from './components/EditableText'
 import { ProjectDialog } from './components/ProjectDialog'
 import { ProjectGrid } from './components/ProjectGrid'
+import { DailyRandomPanel } from './components/DailyRandomPanel'
+import { RandomPromptManager } from './components/RandomPromptManager'
+import { RandomHistory } from './components/RandomHistory'
 import type { AppState, Project, ViewMode } from './domain/types'
+import { toDateKey } from './domain/dateRanges'
 import { exportState, importState } from './storage/dataTransfer'
 import { createLocalCheckinRepository } from './storage/localCheckinRepository'
 import './styles.css'
@@ -71,6 +75,36 @@ export default function App() {
 
   const monthTitle = `${anchor.getFullYear()} 年 ${anchor.getMonth() + 1} 月`
   const activeCount = state.projects.filter((project) => !project.archived).length
+  const todayKey = toDateKey(today)
+
+  const saveRandomResult = (categoryId: AppState['randomCategories'][number]['id'], result: { itemId: string; name: string }) => update((current) => ({
+    ...current,
+    dailyRandomResults: {
+      ...current.dailyRandomResults,
+      [todayKey]: { ...current.dailyRandomResults[todayKey], [categoryId]: result },
+    },
+  }))
+
+  const addRandomItem = (categoryId: AppState['randomCategories'][number]['id']) => update((current) => ({
+    ...current,
+    randomCategories: current.randomCategories.map((category) => category.id === categoryId
+      ? { ...category, items: [...category.items, { id: makeId(), name: '新内容' }] }
+      : category),
+  }))
+
+  const renameRandomItem = (categoryId: AppState['randomCategories'][number]['id'], itemId: string, name: string) => update((current) => ({
+    ...current,
+    randomCategories: current.randomCategories.map((category) => category.id === categoryId
+      ? { ...category, items: category.items.map((item) => item.id === itemId ? { ...item, name } : item) }
+      : category),
+  }))
+
+  const deleteRandomItem = (categoryId: AppState['randomCategories'][number]['id'], itemId: string) => update((current) => ({
+    ...current,
+    randomCategories: current.randomCategories.map((category) => category.id === categoryId && category.items.length > 1
+      ? { ...category, items: category.items.filter((item) => item.id !== itemId) }
+      : category),
+  }))
 
   const downloadBackup = () => {
     const blob = new Blob([exportState(state)], { type: 'application/json' })
@@ -112,6 +146,7 @@ export default function App() {
           <button className="new-project-button" onClick={() => setDialogOpen(true)}><Plus size={16} />新项目</button>
         </div>
       </header>
+      <DailyRandomPanel categories={state.randomCategories} results={state.dailyRandomResults[todayKey] ?? {}} onResult={saveRandomResult} />
 
       <section className="workspace">
         {searchOpen && (
@@ -167,6 +202,10 @@ export default function App() {
             <button aria-label="导出数据" onClick={downloadBackup}><Download size={13} />导出</button>
           </div>
         </footer>
+        <div className="bottom-panels">
+          <RandomPromptManager categories={state.randomCategories} onAdd={addRandomItem} onRename={renameRandomItem} onDelete={deleteRandomItem} />
+          <RandomHistory categories={state.randomCategories} history={state.dailyRandomResults} />
+        </div>
       </section>
 
       <ProjectDialog open={dialogOpen} onClose={() => setDialogOpen(false)} onCreate={createProject} />

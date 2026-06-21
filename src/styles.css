@@ -21,6 +21,14 @@ button { color: inherit; }
 .view-switcher button { border: 0; background: transparent; padding: 7px 15px; border-radius: 8px; color: #70706b; cursor: pointer; font-size: 13px; font-weight: 600; }
 .view-switcher button.active { color: #1f1f1d; background: #fff; box-shadow: 0 1px 5px rgba(0,0,0,.1); }
 .top-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.daily-random { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid #ecece7; }
+.daily-random button { min-height: 78px; border: 0; border-right: 1px solid #eeeeea; background: #fff; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.daily-random button:last-child { border-right: 0; }
+.daily-random button:not(:disabled):hover { background: #f7f7f4; }
+.daily-random button:disabled { color: inherit; }
+.daily-random small { color: #888882; font-size: 10px; letter-spacing: .12em; }
+.daily-random strong { font-size: 16px; font-weight: 700; }
+.daily-random .locked strong { color: #292927; }
 .icon-button, .new-project-button, .today-button, .ghost-button, .primary-button { min-height: 34px; border: 1px solid #deded8; background: #fff; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .icon-button { width: 34px; padding: 0; }
 .new-project-button, .today-button, .ghost-button, .primary-button { padding: 0 13px; }
@@ -82,6 +90,21 @@ button { color: inherit; }
 .data-transfer button { border: 0; background: transparent; color: #777771; padding: 5px 6px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; font-size: 10px; font-weight: 600; }
 .data-transfer button:hover { color: #4f4f4b; background: #f3f3ef; }
 .transfer-message { margin-right: 5px; color: #777771; }
+.bottom-panels { margin-top: 14px; border-top: 1px solid #eeeeea; }
+.bottom-panel { border-bottom: 1px solid #eeeeea; }
+.bottom-panel summary { padding: 13px 2px; cursor: pointer; color: #777771; font-size: 11px; list-style: none; }
+.bottom-panel summary::-webkit-details-marker { display: none; }
+.prompt-manager { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 8px 0 22px; }
+.prompt-manager h3 { margin: 0 0 9px; font-size: 13px; }
+.prompt-item { display: flex; align-items: center; gap: 4px; min-height: 30px; }
+.prompt-item .editable-label, .prompt-item .editable-input { flex: 1; font-size: 12px; }
+.prompt-item > button, .add-prompt { border: 0; background: transparent; color: #888882; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.prompt-item > button:disabled { opacity: .2; cursor: default; }
+.add-prompt { margin-top: 5px; font-size: 10px; }
+.random-history { padding: 2px 0 20px; }
+.history-row { display: grid; grid-template-columns: 110px repeat(3, 1fr); gap: 16px; padding: 8px 0; border-top: 1px solid #f1f1ed; font-size: 11px; }
+.history-row time { color: #777771; font-family: ui-monospace, monospace; }
+.random-history p { color: #999; font-size: 11px; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .dialog-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(34,34,30,.2); backdrop-filter: blur(4px); }
 .dialog { width: min(420px, 100%); padding: 24px; border-radius: 16px; background: #fff; box-shadow: 0 25px 80px rgba(0,0,0,.18); }
@@ -97,6 +120,8 @@ button { color: inherit; }
   .topbar { grid-template-columns: 1fr auto; padding: 14px 18px; gap: 12px; }
   .view-switcher { grid-column: 1 / -1; grid-row: 2; }
   .view-switcher button { flex: 1; }
+  .daily-random button { min-height: 70px; }
+  .daily-random strong { font-size: 14px; }
   .workspace { padding: 24px 18px 16px; }
   .period-toolbar { align-items: flex-start; flex-direction: column; }
   .progress-grid { grid-template-columns: 150px repeat(var(--time-columns), 28px) 132px; }
@@ -105,6 +130,8 @@ button { color: inherit; }
   .footer-note { align-items: flex-start; }
   .footer-copy { flex-direction: column; gap: 5px; }
   .data-transfer { margin-left: auto; }
+  .prompt-manager { grid-template-columns: 1fr; gap: 18px; }
+  .history-row { grid-template-columns: 85px repeat(3, 1fr); gap: 8px; font-size: 10px; }
   .new-project-button { padding-inline: 10px; }
 }
 
