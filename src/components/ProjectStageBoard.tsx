@@ -31,7 +31,7 @@ export function ProjectStageBoard({ projects, onStageChange }: BoardProps) {
                 <div className="stage-track">
                   <i className="stage-line" style={{ width: `${progress}%` }} />
                   {PROJECT_STAGES.map((stage, index) => (
-                    <button key={stage.name} aria-label={`${project.name} ${stage.name}`} className={index <= project.stageIndex ? 'reached' : ''} onClick={() => onStageChange(project.id, index)} />
+                    <button key={stage.name} aria-label={`${project.name} ${stage.name}`} title={stage.name} onClick={() => onStageChange(project.id, index)} />
                   ))}
                 </div>
                 <div className="stage-row-end"><strong>{PROJECT_STAGES[project.stageIndex].percent}%</strong></div>
