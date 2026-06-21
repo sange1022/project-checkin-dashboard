@@ -43,6 +43,7 @@
 - Modify: `src/storage/dataTransfer.test.ts`
 
 - [ ] 实现固定项目列、横向滚动、粗进度线、阶段节点和行末百分比。
+- [ ] 表头使用 15 个固定简称并移除表头百分比，桌面端缩窄到一屏优先。
 - [ ] 测试 JSON 备份保留 `stageProjects`。
 - [ ] 运行 `npm test -- --run && npm run build`。
 - [ ] 提交本地预览版本，暂不推送 GitHub。

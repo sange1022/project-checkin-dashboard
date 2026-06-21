@@ -20,7 +20,7 @@ export function ProjectStageBoard({ projects, onStageChange }: BoardProps) {
         <div className="stage-grid">
           <div className="stage-project-header">项目</div>
           <div className="stage-axis-header">
-            {PROJECT_STAGES.map((stage) => <span key={stage.name}>{stage.name}<small>{stage.percent}%</small></span>)}
+            {PROJECT_STAGES.map((stage) => <span key={stage.name} title={stage.name}>{stage.shortName}</span>)}
           </div>
           <div className="stage-percent-header">进度</div>
           {projects.map((project) => {
