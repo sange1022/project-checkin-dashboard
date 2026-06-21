@@ -1,8 +1,9 @@
 :root {
   font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-weight: 600;
   color: #20201e;
   background: #f4f4f1;
-  font-synthesis: none;
+  font-synthesis: weight;
 }
 
 * { box-sizing: border-box; }
@@ -17,7 +18,7 @@ button { color: inherit; }
 .editable-input { border: 1px solid #cfcfc8; outline: 3px solid #f1f1ed; background: #fff; border-radius: 7px; padding: 4px 6px; color: inherit; min-width: 0; }
 .page-title { font-size: 19px; font-weight: 700; letter-spacing: .04em; width: max-content; }
 .view-switcher { display: flex; padding: 3px; gap: 2px; background: #f2f2ef; border-radius: 10px; }
-.view-switcher button { border: 0; background: transparent; padding: 7px 15px; border-radius: 8px; color: #888883; cursor: pointer; font-size: 13px; }
+.view-switcher button { border: 0; background: transparent; padding: 7px 15px; border-radius: 8px; color: #70706b; cursor: pointer; font-size: 13px; font-weight: 600; }
 .view-switcher button.active { color: #1f1f1d; background: #fff; box-shadow: 0 1px 5px rgba(0,0,0,.1); }
 .top-actions { display: flex; justify-content: flex-end; gap: 8px; }
 .icon-button, .new-project-button, .today-button, .ghost-button, .primary-button { min-height: 34px; border: 1px solid #deded8; background: #fff; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
@@ -33,23 +34,23 @@ button { color: inherit; }
 .period-toolbar { min-height: 75px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
 .eyebrow { margin: 0 0 7px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .12em; font-size: 10px; color: #aaa9a2; }
 .period-toolbar h1 { margin: 0; font-size: clamp(25px, 3vw, 35px); font-weight: 600; letter-spacing: .02em; }
-.period-meta { margin: 6px 0 0; font-size: 12px; color: #999993; }
+.period-meta { margin: 6px 0 0; font-size: 12px; color: #767671; }
 .month-navigation, .intensity-legend { display: flex; align-items: center; gap: 7px; }
-.intensity-legend { font-size: 11px; color: #999; }
+.intensity-legend { font-size: 11px; color: #72726d; }
 .intensity-legend i { width: 13px; height: 13px; border-radius: 4px; }
 .grid-scroll { overflow-x: auto; overscroll-behavior-inline: contain; padding-bottom: 8px; }
 .progress-grid { --time-columns: 30; min-width: max-content; display: grid; grid-template-columns: 160px repeat(var(--time-columns), minmax(25px, 1fr)) 92px; column-gap: 6px; align-items: center; }
 .grid-week .progress-grid, .grid-month .progress-grid { width: 100%; min-width: 840px; grid-template-columns: 160px repeat(12, minmax(42px, 1fr)) 92px; column-gap: 10px; }
-.grid-header { min-height: 45px; display: flex; flex-direction: column; justify-content: center; text-align: center; color: #a0a09a; font-size: 11px; }
+.grid-header { min-height: 45px; display: flex; flex-direction: column; justify-content: center; text-align: center; color: #74746f; font-size: 11px; font-weight: 700; }
 .grid-header span { font-size: 12px; }
-.grid-header small { margin-top: 4px; font-size: 9px; color: #b8b8b2; }
+.grid-header small { margin-top: 4px; font-size: 9px; color: #888882; font-weight: 600; }
 .day-header.is-today span { color: #222; font-weight: 700; }
 .project-spacer { position: sticky; left: 0; z-index: 4; align-items: flex-start; background: #fff; justify-content: center; font-size: 10px; letter-spacing: .08em; }
 .project-row-contents { display: contents; }
 .project-name-cell, .checkin-cell, .aggregate-cell, .project-menu { min-height: 42px; border-top: 1px solid #f0f0eb; }
 .project-name-cell { position: sticky; left: 0; z-index: 3; display: flex; align-items: center; gap: 9px; padding-right: 12px; background: #fff; }
 .project-dot { width: 6px; height: 6px; border-radius: 50%; background: #292927; flex: none; }
-.project-name { width: 100%; font-size: 13px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.project-name { width: 100%; font-size: 13px; font-weight: 700; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .project-name-wrap { min-width: 0; flex: 1; overflow: hidden; }
 .checkin-cell { align-self: center; justify-self: center; min-height: 0; width: 25px; height: 25px; border: 1px solid #e7e7e1; border-radius: 7px; background: #f0f0ec; cursor: pointer; transition: transform .12s ease, background .12s ease; }
 .checkin-cell:hover:not(:disabled) { transform: translateY(-1px); border-color: #cfcfc8; }
@@ -71,11 +72,11 @@ button { color: inherit; }
 .empty-state { min-height: 260px; margin-top: 14px; border: 1px dashed #dfdfd9; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .empty-mark { width: 52px; height: 52px; display: grid; place-items: center; border: 1px solid #d9d9d2; border-radius: 50%; font-size: 22px; margin-bottom: 14px; }
 .empty-state h2 { margin: 0; font-size: 20px; font-weight: 600; }
-.empty-state p { margin: 9px 0 20px; color: #999; font-size: 13px; }
-.footer-note { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eeeeea; color: #999; font-size: 11px; }
+.empty-state p { margin: 9px 0 20px; color: #74746f; font-size: 13px; }
+.footer-note { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eeeeea; color: #777771; font-size: 11px; }
 .footer-copy { display: flex; gap: 18px; }
 .data-transfer { display: flex; align-items: center; gap: 3px; }
-.data-transfer button { border: 0; background: transparent; color: #aaa9a3; padding: 5px 6px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; font-size: 10px; }
+.data-transfer button { border: 0; background: transparent; color: #777771; padding: 5px 6px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; font-size: 10px; font-weight: 600; }
 .data-transfer button:hover { color: #4f4f4b; background: #f3f3ef; }
 .transfer-message { margin-right: 5px; color: #777771; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
