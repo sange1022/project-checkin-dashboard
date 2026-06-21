@@ -39,6 +39,8 @@ export type AppState = {
   randomCategories: RandomCategory[]
   dailyRandomResults: Record<string, Partial<Record<RandomCategory['id'], RandomResult>>>
   stageProjects: StageProject[]
+  stageBoardTitle: string
+  stageLabels: string[]
 }
 
 export function createInitialState(): AppState {
@@ -55,5 +57,7 @@ export function createInitialState(): AppState {
     ],
     dailyRandomResults: {},
     stageProjects: [],
+    stageBoardTitle: '设计项目阶段',
+    stageLabels: ['初次沟通', '设计定金', '现场量尺', '平面方案', '一次方案', 'SU建模', '二次方案', '效果图制作', '效果图沟通', '施工图制作', '图纸对接', '软装搭配', '软装交付', '现场施工', '服务完结'],
   }
 }

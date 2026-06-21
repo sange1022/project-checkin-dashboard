@@ -112,6 +112,11 @@ export default function App() {
   const renameStageProject = (id: string, name: string) => update((current) => ({ ...current, stageProjects: current.stageProjects.map((project) => project.id === id ? { ...project, name } : project) }))
   const setStageProjectStage = (id: string, stageIndex: number) => update((current) => ({ ...current, stageProjects: current.stageProjects.map((project) => project.id === id ? { ...project, stageIndex } : project) }))
   const deleteStageProject = (id: string) => update((current) => ({ ...current, stageProjects: current.stageProjects.filter((project) => project.id !== id) }))
+  const renameStageBoard = (stageBoardTitle: string) => update((current) => ({ ...current, stageBoardTitle }))
+  const renameStageLabel = (index: number, label: string) => update((current) => ({
+    ...current,
+    stageLabels: current.stageLabels.map((currentLabel, currentIndex) => currentIndex === index ? label : currentLabel),
+  }))
 
   const downloadBackup = () => {
     const blob = new Blob([exportState(state)], { type: 'application/json' })
@@ -182,7 +187,7 @@ export default function App() {
         </div>
 
         <ProjectGrid view={state.view} anchor={anchor} today={today} projects={visibleProjects} checkins={state.checkins} onToggle={toggleCheckin} onRename={renameProject} onMove={moveProject} onDelete={deleteProject} />
-        <ProjectStageBoard projects={state.stageProjects} onStageChange={setStageProjectStage} />
+        <ProjectStageBoard title={state.stageBoardTitle} labels={state.stageLabels} projects={state.stageProjects} onTitleChange={renameStageBoard} onLabelChange={renameStageLabel} onStageChange={setStageProjectStage} />
         {!visibleProjects.length && (
           <div className="empty-state">
             <div className="empty-mark">日</div>

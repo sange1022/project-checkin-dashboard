@@ -4,7 +4,7 @@
 
 **Goal:** 增加独立维护的项目阶段看板，用固定 15 阶段和百分比展示横向进度线。
 
-**Architecture:** 固定阶段定义放在纯领域模块，项目阶段状态保存在 `AppState.stageProjects`。`ProjectStageBoard` 只负责展示和阶段点击，`StageProjectManager` 在最下方折叠区负责新增、原地改名和删除。
+**Architecture:** 固定阶段百分比和完整名称放在纯领域模块，项目阶段状态保存在 `AppState.stageProjects`，可编辑标题和简称保存在 `stageBoardTitle` 与 `stageLabels`。`ProjectStageBoard` 负责展示、简称编辑和阶段点击，`StageProjectManager` 在最下方折叠区负责新增、原地改名和删除。
 
 **Tech Stack:** React、TypeScript、Vitest、Testing Library、CSS
 
@@ -46,6 +46,7 @@
 - [ ] 表头使用 15 个固定简称并移除表头百分比，桌面端缩窄到一屏优先。
 - [ ] 删除圆形节点，让浅灰总线与深色已完成线同粗；透明阶段点击区覆盖每列。
 - [ ] 使用半列左右留白和 `stageIndex / 14` 宽度公式，让进度终点精确对齐阶段文字中心。
+- [ ] 标题和 15 个简称使用原地编辑；推进点击区移动到文字下方，避免误触。
 - [ ] 测试 JSON 备份保留 `stageProjects`。
 - [ ] 运行 `npm test -- --run && npm run build`。
 - [ ] 提交本地预览版本，暂不推送 GitHub。

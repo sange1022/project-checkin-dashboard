@@ -18,5 +18,7 @@ export function normalizeRandomState(state: Partial<AppState>): AppState {
     randomCategories: state.randomCategories?.length ? state.randomCategories : initial.randomCategories,
     dailyRandomResults: state.dailyRandomResults ?? {},
     stageProjects: state.stageProjects ?? [],
+    stageBoardTitle: state.stageBoardTitle ?? initial.stageBoardTitle,
+    stageLabels: state.stageLabels?.length === 15 ? state.stageLabels : initial.stageLabels,
   }
 }

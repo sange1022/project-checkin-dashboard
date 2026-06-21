@@ -5,22 +5,30 @@ import type { StageProject } from '../domain/types'
 import { EditableText } from './EditableText'
 
 type BoardProps = {
+  title: string
+  labels: string[]
   projects: StageProject[]
+  onTitleChange: (title: string) => void
+  onLabelChange: (index: number, label: string) => void
   onStageChange: (id: string, stageIndex: number) => void
 }
 
-export function ProjectStageBoard({ projects, onStageChange }: BoardProps) {
+export function ProjectStageBoard({ title, labels, projects, onTitleChange, onLabelChange, onStageChange }: BoardProps) {
   return (
     <section className="stage-board-section">
       <div className="stage-section-heading">
-        <h2>设计项目阶段</h2>
+        <EditableText value={title} ariaLabel="进度视图标题" onSave={onTitleChange} className="stage-board-title" />
         <span>{projects.length} 个项目</span>
       </div>
       <div className="stage-scroll">
         <div className="stage-grid">
           <div className="stage-project-header">项目</div>
           <div className="stage-axis-header">
-            {PROJECT_STAGES.map((stage) => <span key={stage.name} title={stage.name}>{stage.shortName}</span>)}
+            {PROJECT_STAGES.map((stage, index) => (
+              <span key={stage.name} title={stage.name}>
+                <EditableText value={labels[index]} ariaLabel={`阶段简称${index + 1}`} onSave={(label) => onLabelChange(index, label)} className="stage-label" />
+              </span>
+            ))}
           </div>
           <div className="stage-percent-header">进度</div>
           {projects.map((project) => {
