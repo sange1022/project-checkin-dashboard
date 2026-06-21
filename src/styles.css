@@ -51,8 +51,8 @@ button { color: inherit; }
 .project-name-cell { position: sticky; left: 0; z-index: 3; display: flex; align-items: center; gap: 9px; padding-right: 12px; background: #fff; }
 .project-dot { width: 6px; height: 6px; border-radius: 50%; background: #292927; flex: none; }
 .lifetime-count, .month-count { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: #666660; font-size: 10px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.lifetime-count { width: 24px; text-align: right; flex: none; }
-.month-count { min-width: 38px; margin-right: 4px; text-align: right; }
+.month-count { width: 38px; text-align: right; flex: none; }
+.lifetime-count { min-width: 24px; margin-right: 4px; text-align: right; }
 .project-name { width: 100%; font-size: 13px; font-weight: 700; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .project-name-wrap { min-width: 0; flex: 1; overflow: hidden; }
 .checkin-cell { align-self: center; justify-self: center; min-height: 0; width: 25px; height: 25px; border: 1px solid #e7e7e1; border-radius: 7px; background: #f0f0ec; cursor: pointer; transition: transform .12s ease, background .12s ease; }

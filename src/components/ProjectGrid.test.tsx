@@ -26,10 +26,17 @@ function renderGrid({
   )
 }
 
-test('shows lifetime count before the name and selected-month count at row end', () => {
+test('shows selected-month count before the name and lifetime count at row end', () => {
   renderGrid()
   expect(screen.getByLabelText('官网重构累计打卡')).toHaveTextContent('3')
   expect(screen.getByLabelText('官网重构本月打卡')).toHaveTextContent('2/30')
+  const row = screen.getByTestId('project-row')
+  const monthly = screen.getByLabelText('官网重构本月打卡')
+  const name = screen.getByTestId('project-name')
+  const lifetime = screen.getByLabelText('官网重构累计打卡')
+  expect(monthly.compareDocumentPosition(name) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  expect(name.compareDocumentPosition(lifetime) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  expect(row).toContainElement(monthly)
 })
 
 test.each(['week', 'month'] as const)('hides monthly count in %s view', (view) => {

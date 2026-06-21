@@ -54,10 +54,10 @@ export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle,
           const checked = new Set(checkins[project.id] ?? [])
           const monthCount = days.filter(({ key }) => checked.has(key)).length
           return (
-            <div className="project-row-contents" key={project.id}>
+            <div className="project-row-contents" data-testid="project-row" key={project.id}>
               <div className="project-name-cell">
                 <i className="project-dot" />
-                <span className="lifetime-count" aria-label={`${project.name}累计打卡`}>{checked.size}</span>
+                {view === 'day' && <span className="month-count" aria-label={`${project.name}本月打卡`}>{monthCount}/{days.length}</span>}
                 <span data-testid="project-name" className="project-name-wrap">
                   <EditableText value={project.name} ariaLabel={`${project.name}名称`} onSave={(name) => onRename(project.id, name)} className="project-name" />
                 </span>
@@ -79,7 +79,7 @@ export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle,
                   })
                 : periods.map((period) => <AggregateCell key={period.key} period={period} checked={checked} />)}
               <div className="project-actions">
-                {view === 'day' && <span className="month-count" aria-label={`${project.name}本月打卡`}>{monthCount}/{days.length}</span>}
+                <span className="lifetime-count" aria-label={`${project.name}累计打卡`}>{checked.size}</span>
                 <button aria-label={`上移 ${project.name}`} disabled={projectIndex === 0} onClick={() => onMove(project.id, -1)}><ArrowUp size={14} /></button>
                 <button aria-label={`下移 ${project.name}`} disabled={projectIndex === projects.length - 1} onClick={() => onMove(project.id, 1)}><ArrowDown size={14} /></button>
                 <button className="danger" aria-label={`删除 ${project.name}`} onClick={() => window.confirm(`删除“${project.name}”及全部打卡记录？`) && onDelete(project.id)}><Trash2 size={14} /></button>

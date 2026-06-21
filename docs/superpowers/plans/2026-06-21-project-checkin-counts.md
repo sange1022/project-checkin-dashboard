@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 在项目名前显示累计打卡数，并在每日视图行末显示所选月份打卡数与月天数。
+**Goal:** 在每日视图项目名前显示所选月份打卡数与月天数，并在行末显示累计打卡数。
 
 **Architecture:** 计数直接从现有项目打卡日期数组派生，不新增持久化字段。`ProjectGrid` 负责按全部日期和所选月份计算数字，CSS 只增加两个无装饰的数字位置。
 
