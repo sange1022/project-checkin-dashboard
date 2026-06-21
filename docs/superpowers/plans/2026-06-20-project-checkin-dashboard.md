@@ -4,7 +4,7 @@
 
 **Goal:** 构建一个宋体、极简、按项目横排展示完整自然月的本地项目打卡应用，并提供周/月灰度汇总、项目管理和搜索。
 
-**Architecture:** 使用 React + TypeScript + Vite 构建单页应用。日期计算、汇总算法和本地仓储作为无 UI 的独立模块；React 组件通过仓储接口加载和保存状态，为未来云同步保留替换边界。
+**Architecture:** 使用 React + TypeScript + Vite 构建单页应用。日期计算、汇总算法和浏览器本地仓储作为无 UI 的独立模块；React 组件通过仓储接口加载和保存状态。
 
 **Tech Stack:** React 19、TypeScript、Vite、Vitest、Testing Library、CSS
 
@@ -432,4 +432,3 @@ Expected: all tests passed；Vite build exit 0。
 git add src
 git commit -m "style: match approved project progress design"
 ```
-
