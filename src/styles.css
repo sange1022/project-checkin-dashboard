@@ -68,6 +68,13 @@ button { color: inherit; }
 .checkin-cell.checked { background: #292927; border-color: #292927; }
 .checkin-cell.today { box-shadow: 0 0 0 2px #fff, 0 0 0 3px #33332f; }
 .checkin-cell:disabled { background: #fafaf8; border-color: #f2f2ee; cursor: default; }
+@media (hover: hover) and (pointer: fine) {
+  .checkin-cell.hover-row:not(.checked), .checkin-cell.hover-column:not(.checked) { background: #e9e9e4; }
+  .checkin-cell.hover-current { box-shadow: 0 0 0 2px #fff, 0 0 0 3px #6f6f69; }
+  .checkin-cell.checked.hover-current { background: #292927; }
+  .project-name-cell.hover-row .project-name { color: #111; }
+  .day-header.hover-column span, .day-header.hover-column small { color: #33332f; }
+}
 .aggregate-cell { align-self: center; justify-self: stretch; min-height: 27px; border: 0; border-radius: 7px; }
 [data-intensity="0"] { background: #efefeb; }
 [data-intensity="1"] { background: #d9d9d3; }

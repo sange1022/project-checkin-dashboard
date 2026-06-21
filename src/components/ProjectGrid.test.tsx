@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { ViewMode } from '../domain/types'
 import { ProjectGrid } from './ProjectGrid'
 
@@ -43,4 +44,21 @@ test.each(['week', 'month'] as const)('hides monthly count in %s view', (view) =
   renderGrid({ view })
   expect(screen.getByLabelText('官网重构累计打卡')).toHaveTextContent('3')
   expect(screen.queryByLabelText('官网重构本月打卡')).not.toBeInTheDocument()
+})
+
+test('highlights the hovered daily row and column then clears on leave', async () => {
+  const user = userEvent.setup()
+  renderGrid()
+  const target = screen.getByRole('button', { name: '官网重构 6月2日' })
+
+  await user.hover(target)
+
+  expect(target).toHaveClass('hover-current')
+  expect(screen.getByTestId('project-name-cell')).toHaveClass('hover-row')
+  expect(screen.getByTestId('day-header-2026-06-02')).toHaveClass('hover-column')
+
+  await user.unhover(target)
+
+  expect(target).not.toHaveClass('hover-current')
+  expect(screen.getByTestId('project-name-cell')).not.toHaveClass('hover-row')
 })

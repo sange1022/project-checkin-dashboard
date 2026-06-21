@@ -1,4 +1,5 @@
 import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { getIntensity, getPeriodRatio } from '../domain/aggregation'
 import { getMonthDays, getMonthPeriods, getWeekPeriods, toDateKey, type Period } from '../domain/dateRanges'
 import type { Project, ViewMode } from '../domain/types'
@@ -25,6 +26,7 @@ function AggregateCell({ period, checked }: { period: Period; checked: Set<strin
 }
 
 export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle, onRename, onMove, onDelete }: Props) {
+  const [hovered, setHovered] = useState<{ projectId: string; dateKey: string } | null>(null)
   const days = getMonthDays(anchor)
   const periods = view === 'week' ? getWeekPeriods(today) : getMonthPeriods(today)
   const columns = view === 'day' ? days.length : periods.length
@@ -37,7 +39,7 @@ export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle,
         <div className="grid-header project-spacer">项目</div>
         {view === 'day'
           ? days.map(({ date, key }) => (
-              <div className={`grid-header day-header ${key === todayKey ? 'is-today' : ''}`} data-testid="period-header" key={key}>
+              <div className={`grid-header day-header ${key === todayKey ? 'is-today' : ''} ${hovered?.dateKey === key ? 'hover-column' : ''}`} data-testid={`day-header-${key}`} key={key}>
                 <span>{date.getDate()}</span>
                 <small>周{weekday[date.getDay()]}</small>
               </div>
@@ -55,7 +57,7 @@ export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle,
           const monthCount = days.filter(({ key }) => checked.has(key)).length
           return (
             <div className="project-row-contents" data-testid="project-row" key={project.id}>
-              <div className="project-name-cell">
+              <div className={`project-name-cell ${hovered?.projectId === project.id ? 'hover-row' : ''}`} data-testid="project-name-cell">
                 <i className="project-dot" />
                 {view === 'day' && <span className="month-count" aria-label={`${project.name}本月打卡`}>{monthCount}/{days.length}</span>}
                 <span data-testid="project-name" className="project-name-wrap">
@@ -69,10 +71,12 @@ export function ProjectGrid({ view, anchor, today, projects, checkins, onToggle,
                     return (
                       <button
                         key={key}
-                        className={`checkin-cell ${selected ? 'checked' : ''} ${key === todayKey ? 'today' : ''}`}
+                        className={`checkin-cell ${selected ? 'checked' : ''} ${key === todayKey ? 'today' : ''} ${hovered?.projectId === project.id ? 'hover-row' : ''} ${hovered?.dateKey === key ? 'hover-column' : ''} ${hovered?.projectId === project.id && hovered.dateKey === key ? 'hover-current' : ''}`}
                         aria-label={`${project.name} ${date.getMonth() + 1}月${date.getDate()}日`}
                         aria-pressed={selected}
                         disabled={future}
+                        onMouseEnter={() => setHovered({ projectId: project.id, dateKey: key })}
+                        onMouseLeave={() => setHovered(null)}
                         onClick={() => onToggle(project.id, key)}
                       />
                     )
