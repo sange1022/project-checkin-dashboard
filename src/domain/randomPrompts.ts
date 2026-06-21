@@ -17,5 +17,6 @@ export function normalizeRandomState(state: Partial<AppState>): AppState {
     checkins: state.checkins ?? initial.checkins,
     randomCategories: state.randomCategories?.length ? state.randomCategories : initial.randomCategories,
     dailyRandomResults: state.dailyRandomResults ?? {},
+    stageProjects: state.stageProjects ?? [],
   }
 }

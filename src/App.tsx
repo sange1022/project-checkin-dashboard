@@ -6,8 +6,10 @@ import { ProjectGrid } from './components/ProjectGrid'
 import { DailyRandomPanel } from './components/DailyRandomPanel'
 import { RandomPromptManager } from './components/RandomPromptManager'
 import { RandomHistory } from './components/RandomHistory'
+import { ProjectStageBoard } from './components/ProjectStageBoard'
 import type { AppState, Project, ViewMode } from './domain/types'
 import { toDateKey } from './domain/dateRanges'
+import { createStageProject } from './domain/projectStages'
 import { exportState, importState } from './storage/dataTransfer'
 import { createLocalCheckinRepository } from './storage/localCheckinRepository'
 import './styles.css'
@@ -105,6 +107,11 @@ export default function App() {
       ? { ...category, items: category.items.filter((item) => item.id !== itemId) }
       : category),
   }))
+
+  const addStageProject = (name: string) => update((current) => ({ ...current, stageProjects: [...current.stageProjects, createStageProject(name, makeId())] }))
+  const renameStageProject = (id: string, name: string) => update((current) => ({ ...current, stageProjects: current.stageProjects.map((project) => project.id === id ? { ...project, name } : project) }))
+  const setStageProjectStage = (id: string, stageIndex: number) => update((current) => ({ ...current, stageProjects: current.stageProjects.map((project) => project.id === id ? { ...project, stageIndex } : project) }))
+  const deleteStageProject = (id: string) => update((current) => ({ ...current, stageProjects: current.stageProjects.filter((project) => project.id !== id) }))
 
   const downloadBackup = () => {
     const blob = new Blob([exportState(state)], { type: 'application/json' })
@@ -205,6 +212,7 @@ export default function App() {
         <div className="bottom-panels">
           <RandomPromptManager categories={state.randomCategories} onAdd={addRandomItem} onRename={renameRandomItem} onDelete={deleteRandomItem} />
           <RandomHistory categories={state.randomCategories} history={state.dailyRandomResults} />
+          <ProjectStageBoard projects={state.stageProjects} onAdd={addStageProject} onRename={renameStageProject} onStageChange={setStageProjectStage} onDelete={deleteStageProject} />
         </div>
       </section>
 

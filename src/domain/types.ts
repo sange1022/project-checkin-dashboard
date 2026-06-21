@@ -23,6 +23,13 @@ export type RandomResult = {
   name: string
 }
 
+export type StageProject = {
+  id: string
+  name: string
+  stageIndex: number
+  createdAt: string
+}
+
 export type AppState = {
   title: string
   view: ViewMode
@@ -31,6 +38,7 @@ export type AppState = {
   checkins: Record<string, string[]>
   randomCategories: RandomCategory[]
   dailyRandomResults: Record<string, Partial<Record<RandomCategory['id'], RandomResult>>>
+  stageProjects: StageProject[]
 }
 
 export function createInitialState(): AppState {
@@ -46,5 +54,6 @@ export function createInitialState(): AppState {
       { id: 'mind', name: '建脑', items: [{ id: 'mind-history', name: '历史' }, { id: 'mind-philosophy', name: '哲学' }, { id: 'mind-humanity', name: '人性' }, { id: 'mind-biography', name: '传记' }, { id: 'mind-physics', name: '物理' }, { id: 'mind-literature', name: '文学' }] },
     ],
     dailyRandomResults: {},
+    stageProjects: [],
   }
 }
