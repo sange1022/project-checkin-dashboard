@@ -6,7 +6,7 @@ import { ProjectGrid } from './components/ProjectGrid'
 import { DailyRandomPanel } from './components/DailyRandomPanel'
 import { RandomPromptManager } from './components/RandomPromptManager'
 import { RandomHistory } from './components/RandomHistory'
-import { ProjectStageBoard } from './components/ProjectStageBoard'
+import { ProjectStageBoard, StageProjectManager } from './components/ProjectStageBoard'
 import type { AppState, Project, ViewMode } from './domain/types'
 import { toDateKey } from './domain/dateRanges'
 import { createStageProject } from './domain/projectStages'
@@ -182,6 +182,7 @@ export default function App() {
         </div>
 
         <ProjectGrid view={state.view} anchor={anchor} today={today} projects={visibleProjects} checkins={state.checkins} onToggle={toggleCheckin} onRename={renameProject} onMove={moveProject} onDelete={deleteProject} />
+        <ProjectStageBoard projects={state.stageProjects} onStageChange={setStageProjectStage} />
         {!visibleProjects.length && (
           <div className="empty-state">
             <div className="empty-mark">日</div>
@@ -212,7 +213,7 @@ export default function App() {
         <div className="bottom-panels">
           <RandomPromptManager categories={state.randomCategories} onAdd={addRandomItem} onRename={renameRandomItem} onDelete={deleteRandomItem} />
           <RandomHistory categories={state.randomCategories} history={state.dailyRandomResults} />
-          <ProjectStageBoard projects={state.stageProjects} onAdd={addStageProject} onRename={renameStageProject} onStageChange={setStageProjectStage} onDelete={deleteStageProject} />
+          <StageProjectManager projects={state.stageProjects} onAdd={addStageProject} onRename={renameStageProject} onDelete={deleteStageProject} />
         </div>
       </section>
 

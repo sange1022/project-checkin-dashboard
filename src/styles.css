@@ -112,6 +112,10 @@ button { color: inherit; }
 .history-row { display: grid; grid-template-columns: 110px repeat(3, 1fr); gap: 16px; padding: 8px 0; border-top: 1px solid #f1f1ed; font-size: 11px; }
 .history-row time { color: #777771; font-family: ui-monospace, monospace; }
 .random-history p { color: #999; font-size: 11px; }
+.stage-board-section { margin-top: 28px; padding-top: 22px; border-top: 1px solid #e8e8e3; }
+.stage-section-heading { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+.stage-section-heading h2 { margin: 0; font-size: 17px; font-weight: 700; }
+.stage-section-heading span { color: #888882; font-size: 10px; }
 .stage-add { display: flex; gap: 7px; padding: 4px 0 15px; }
 .stage-add input { width: min(260px, 70vw); height: 34px; padding: 0 9px; border: 1px solid #deded8; border-radius: 8px; outline: none; font-size: 11px; }
 .stage-add button { min-height: 34px; padding: 0 10px; border: 1px solid #deded8; border-radius: 8px; background: #fff; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; font-size: 10px; }
@@ -127,7 +131,7 @@ button { color: inherit; }
 .stage-row { display: contents; }
 .stage-project-name, .stage-track, .stage-row-end { min-height: 52px; border-top: 1px solid #f0f0eb; }
 .stage-project-name { position: sticky; left: 0; z-index: 3; display: flex; align-items: center; padding-right: 10px; background: #fff; }
-.stage-project-name .editable-label, .stage-project-name .editable-input { width: 100%; font-size: 12px; font-weight: 700; }
+.stage-project-name span { width: 100%; font-size: 12px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stage-track { position: relative; display: grid; grid-template-columns: repeat(15, 1fr); align-items: center; padding: 0 38px; }
 .stage-track::before { content: ""; position: absolute; left: 41px; right: 41px; top: 50%; height: 3px; background: #e5e5df; transform: translateY(-50%); }
 .stage-line { position: absolute; left: 41px; top: 50%; height: 5px; max-width: calc(100% - 82px); background: #292927; transform: translateY(-50%); z-index: 1; pointer-events: none; }
@@ -138,6 +142,12 @@ button { color: inherit; }
 .stage-row-end button { width: 26px; height: 26px; border: 0; border-radius: 6px; background: transparent; color: #999; cursor: pointer; display: grid; place-items: center; }
 .stage-row-end button:hover { background: #f9ecea; color: #b44740; }
 .stage-empty { grid-column: 1 / -1; padding: 24px 0; color: #999; font-size: 11px; text-align: center; }
+.stage-manage-list { padding-bottom: 18px; }
+.stage-manage-list > div { display: flex; align-items: center; gap: 8px; max-width: 380px; min-height: 34px; border-top: 1px solid #f0f0eb; }
+.stage-manage-list .editable-label, .stage-manage-list .editable-input { flex: 1; font-size: 12px; }
+.stage-manage-list button { width: 27px; height: 27px; border: 0; border-radius: 6px; background: transparent; color: #999; cursor: pointer; display: grid; place-items: center; }
+.stage-manage-list button:hover { background: #f9ecea; color: #b44740; }
+.stage-manage-list p { color: #999; font-size: 11px; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .dialog-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(34,34,30,.2); backdrop-filter: blur(4px); }
 .dialog { width: min(420px, 100%); padding: 24px; border-radius: 16px; background: #fff; box-shadow: 0 25px 80px rgba(0,0,0,.18); }

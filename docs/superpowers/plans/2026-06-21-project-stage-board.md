@@ -4,7 +4,7 @@
 
 **Goal:** 增加独立维护的项目阶段看板，用固定 15 阶段和百分比展示横向进度线。
 
-**Architecture:** 固定阶段定义放在纯领域模块，项目阶段状态保存在 `AppState.stageProjects`。`ProjectStageBoard` 负责新增、原地改名、删除和阶段点击，应用层只更新状态。
+**Architecture:** 固定阶段定义放在纯领域模块，项目阶段状态保存在 `AppState.stageProjects`。`ProjectStageBoard` 只负责展示和阶段点击，`StageProjectManager` 在最下方折叠区负责新增、原地改名和删除。
 
 **Tech Stack:** React、TypeScript、Vitest、Testing Library、CSS
 
@@ -32,8 +32,9 @@
 
 - [ ] 写失败测试：新增项目默认 10%，点击阶段更新为对应百分比。
 - [ ] 写失败测试：项目名称可修改、项目可删除。
-- [ ] 实现折叠区和状态回调。
-- [ ] 将组件放在现有最下方折叠区之后。
+- [ ] 实现常显进度视图和状态回调。
+- [ ] 将组件放在每日打卡表格正下方。
+- [ ] 实现最下方管理折叠区，新增完成后自动收起。
 
 ### Task 3: 横向进度视觉和预览
 
