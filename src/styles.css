@@ -39,7 +39,7 @@ button { color: inherit; }
 .intensity-legend { font-size: 11px; color: #72726d; }
 .intensity-legend i { width: 13px; height: 13px; border-radius: 4px; }
 .grid-scroll { overflow-x: auto; overscroll-behavior-inline: contain; padding-bottom: 8px; }
-.progress-grid { --time-columns: 30; min-width: max-content; display: grid; grid-template-columns: 160px repeat(var(--time-columns), minmax(25px, 1fr)) 92px; column-gap: 6px; align-items: center; }
+.progress-grid { --time-columns: 30; min-width: max-content; display: grid; grid-template-columns: 180px repeat(var(--time-columns), minmax(25px, 1fr)) 132px; column-gap: 6px; align-items: center; }
 .grid-week .progress-grid, .grid-month .progress-grid { width: 100%; min-width: 840px; grid-template-columns: 160px repeat(12, minmax(42px, 1fr)) 92px; column-gap: 10px; }
 .grid-header { min-height: 45px; display: flex; flex-direction: column; justify-content: center; text-align: center; color: #74746f; font-size: 11px; font-weight: 700; }
 .grid-header span { font-size: 12px; }
@@ -50,6 +50,9 @@ button { color: inherit; }
 .project-name-cell, .checkin-cell, .aggregate-cell, .project-menu { min-height: 42px; border-top: 1px solid #f0f0eb; }
 .project-name-cell { position: sticky; left: 0; z-index: 3; display: flex; align-items: center; gap: 9px; padding-right: 12px; background: #fff; }
 .project-dot { width: 6px; height: 6px; border-radius: 50%; background: #292927; flex: none; }
+.lifetime-count, .month-count { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: #666660; font-size: 10px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lifetime-count { width: 24px; text-align: right; flex: none; }
+.month-count { min-width: 38px; margin-right: 4px; text-align: right; }
 .project-name { width: 100%; font-size: 13px; font-weight: 700; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .project-name-wrap { min-width: 0; flex: 1; overflow: hidden; }
 .checkin-cell { align-self: center; justify-self: center; min-height: 0; width: 25px; height: 25px; border: 1px solid #e7e7e1; border-radius: 7px; background: #f0f0ec; cursor: pointer; transition: transform .12s ease, background .12s ease; }
@@ -96,7 +99,7 @@ button { color: inherit; }
   .view-switcher button { flex: 1; }
   .workspace { padding: 24px 18px 16px; }
   .period-toolbar { align-items: flex-start; flex-direction: column; }
-  .progress-grid { grid-template-columns: 130px repeat(var(--time-columns), 28px) 92px; }
+  .progress-grid { grid-template-columns: 150px repeat(var(--time-columns), 28px) 132px; }
   .grid-week .progress-grid, .grid-month .progress-grid { grid-template-columns: 130px repeat(12, 38px) 92px; }
   .checkin-cell { width: 24px; height: 24px; }
   .footer-note { align-items: flex-start; }
