@@ -24,12 +24,12 @@ export function ProjectStageBoard({ projects, onStageChange }: BoardProps) {
           </div>
           <div className="stage-percent-header">进度</div>
           {projects.map((project) => {
-            const progress = (project.stageIndex / (PROJECT_STAGES.length - 1)) * 100
+            const lineWidth = (project.stageIndex / PROJECT_STAGES.length) * 100
             return (
               <div className="stage-row" key={project.id}>
                 <div className="stage-project-name"><span>{project.name}</span></div>
                 <div className="stage-track">
-                  <i className="stage-line" style={{ width: `${progress}%` }} />
+                  <i className="stage-line" style={{ width: `${lineWidth}%` }} />
                   {PROJECT_STAGES.map((stage, index) => (
                     <button key={stage.name} aria-label={`${project.name} ${stage.name}`} title={stage.name} onClick={() => onStageChange(project.id, index)} />
                   ))}
