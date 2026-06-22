@@ -43,6 +43,7 @@ test('opens the English copywork shortcut safely in a new tab', () => {
 test.each([
   ['Learn Buffett', 'https://learnbuffett.com'],
   ['Munger Models', 'https://mungermodels.com'],
+  ['每日卡路里', 'https://sange1022.github.io/daily-calorie-tracker/'],
 ])('opens the %s shortcut safely in a new tab', (name, href) => {
   render(<App />)
   const link = screen.getByRole('link', { name })
