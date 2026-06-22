@@ -168,6 +168,8 @@ export default function App() {
           >
             <BookOpen size={17} />
           </a>
+          <a className="icon-button shortcut-character" href="https://learnbuffett.com" target="_blank" rel="noopener noreferrer" aria-label="Learn Buffett" title="Learn Buffett">巴</a>
+          <a className="icon-button shortcut-character" href="https://mungermodels.com" target="_blank" rel="noopener noreferrer" aria-label="Munger Models" title="Munger Models">芒</a>
           <button className="icon-button" aria-label={actualTheme === 'dark' ? '切换白天模式' : '切换夜晚模式'} onClick={toggleTheme}>
             {actualTheme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>

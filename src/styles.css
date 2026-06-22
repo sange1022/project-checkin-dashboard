@@ -43,6 +43,7 @@ body, .app-shell, button, input, .checkin-cell, .aggregate-cell { transition: co
 .icon-button, .new-project-button, .today-button, .ghost-button, .primary-button { min-height: 34px; border: 1px solid #deded8; background: #fff; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .icon-button { width: 34px; padding: 0; }
 .top-actions a.icon-button { text-decoration: none; }
+.shortcut-character { font-size: 13px; font-weight: 700; }
 .new-project-button, .today-button, .ghost-button, .primary-button { padding: 0 13px; }
 .new-project-button, .primary-button { background: #242422; color: #fff; border-color: #242422; }
 .primary-button:disabled { opacity: .4; cursor: not-allowed; }

@@ -40,6 +40,17 @@ test('opens the English copywork shortcut safely in a new tab', () => {
   expect(link).toHaveAttribute('rel', 'noopener noreferrer')
 })
 
+test.each([
+  ['Learn Buffett', 'https://learnbuffett.com'],
+  ['Munger Models', 'https://mungermodels.com'],
+])('opens the %s shortcut safely in a new tab', (name, href) => {
+  render(<App />)
+  const link = screen.getByRole('link', { name })
+  expect(link).toHaveAttribute('href', href)
+  expect(link).toHaveAttribute('target', '_blank')
+  expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+})
+
 test('moves projects up and down and exposes delete directly', async () => {
   const user = userEvent.setup()
   render(<App />)
