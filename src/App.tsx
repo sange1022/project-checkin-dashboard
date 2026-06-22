@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, Download, Moon, Plus, Search, Sun, Upload, X } from 'lucide-react'
+import { BookOpen, ChevronLeft, ChevronRight, Download, Moon, Plus, Search, Sun, Upload, X } from 'lucide-react'
 import { EditableText } from './components/EditableText'
 import { ProjectDialog } from './components/ProjectDialog'
 import { ProjectGrid } from './components/ProjectGrid'
@@ -158,6 +158,16 @@ export default function App() {
           ))}
         </nav>
         <div className="top-actions">
+          <a
+            className="icon-button"
+            href="https://sange1022.github.io/english-copywork-trainer/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="英语抄写"
+            title="英语抄写"
+          >
+            <BookOpen size={17} />
+          </a>
           <button className="icon-button" aria-label={actualTheme === 'dark' ? '切换白天模式' : '切换夜晚模式'} onClick={toggleTheme}>
             {actualTheme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>

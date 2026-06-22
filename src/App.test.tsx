@@ -32,6 +32,14 @@ test('switches between daily weekly and monthly views', async () => {
   expect(screen.getAllByTestId('period-header')).toHaveLength(12)
 })
 
+test('opens the English copywork shortcut safely in a new tab', () => {
+  render(<App />)
+  const link = screen.getByRole('link', { name: '英语抄写' })
+  expect(link).toHaveAttribute('href', 'https://sange1022.github.io/english-copywork-trainer/')
+  expect(link).toHaveAttribute('target', '_blank')
+  expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+})
+
 test('moves projects up and down and exposes delete directly', async () => {
   const user = userEvent.setup()
   render(<App />)
