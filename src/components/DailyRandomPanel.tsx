@@ -37,7 +37,7 @@ export function DailyRandomPanel({ categories, results, onResult }: Props) {
         const result = results[category.id]
         const isRolling = Boolean(rolling[category.id])
         return (
-          <button key={category.id} className={result ? 'locked' : ''} disabled={Boolean(result) || isRolling} onClick={() => draw(category)}>
+          <button key={category.id} className={result ? 'locked' : ''} disabled={isRolling} aria-disabled={Boolean(result) || isRolling} onClick={() => draw(category)}>
             <small>{category.name}</small>
             <strong>{result?.name ?? rolling[category.id] ?? '点击随机'}</strong>
           </button>

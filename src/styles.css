@@ -267,6 +267,10 @@ body, .app-shell, button, input, .checkin-cell, .aggregate-cell { transition: co
 [data-theme="dark"] .stage-row-end { box-shadow: -10px 0 16px #222220; }
 [data-theme="dark"] .new-project-button,
 [data-theme="dark"] .primary-button { background: #eeeeea; color: #222220; border-color: #eeeeea; }
+[data-theme="dark"] .daily-random .locked strong {
+  color: #ecece7;
+  -webkit-text-fill-color: #ecece7;
+}
 
 @media (hover: hover) and (pointer: fine) {
   [data-theme="dark"] .checkin-cell.hover-row:not(.checked),
