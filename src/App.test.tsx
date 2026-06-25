@@ -45,6 +45,7 @@ test.each([
   ['Munger Models', 'https://mungermodels.com'],
   ['每日卡路里', 'https://sange1022.github.io/daily-calorie-tracker/'],
   ['GoGoScrum', 'https://gogoscrum.com'],
+  ['小红书趋势雷达', 'https://sange1022.github.io/xhs-trend-radar/'],
 ])('opens the %s shortcut safely in a new tab', (name, href) => {
   render(<App />)
   const link = screen.getByRole('link', { name })
